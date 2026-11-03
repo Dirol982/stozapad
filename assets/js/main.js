@@ -132,6 +132,7 @@
   var form = document.querySelector('.cart__form');
   var okEl = document.querySelector('.cart__ok');
 
+  var slotText = function () { return ''; };
   var KEY = 'stozapad-calc';
   var cart = [];          // [{id, n}]
   var active = 'to';
@@ -307,11 +308,180 @@
     var digits = phone.value.replace(/\D/g, '');
     if (digits.length !== 12) { phone.classList.add('is-bad'); phone.focus(); return; }
     var lines = cart.map(function (x) { var it = BY_ID[x.id]; return '— ' + it.name + (it.qty ? ' × ' + x.n : '') + ': от ' + it.price * x.n + ' руб.'; });
-    var body = 'Телефон: ' + phone.value + '\n\nПредварительный расчёт:\n' + (lines.join('\n') || '— (не выбрано)') + '\n\nИтого от ' + fmt(total()) + ' руб.';
+    var body = 'Телефон: ' + phone.value + '\nКогда: ' + slotText() + '\n\nПредварительный расчёт:\n' + (lines.join('\n') || '— (не выбрано)') + '\n\nИтого от ' + fmt(total()) + ' руб.';
     // TODO: подключить отправку на сервер / CRM / Telegram-бота. Пока — письмо администратору.
     window.location.href = 'mailto:mavra41@bk.ru?subject=' + encodeURIComponent('Запись с сайта — онлайн-расчёт') + '&body=' + encodeURIComponent(body);
     okEl.hidden = false;
   });
+
+  function addMany(ids) {
+    var added = 0;
+    ids.forEach(function (id) { if (BY_ID[id] && inCart(id) < 0) { cart.push({ id: id, n: 1 }); added++; } });
+    renderCart(); renderList();
+    return added;
+  }
+
+  /* ---------- «Где беспокоит?» ---------- */
+  // x/y — положение точки на фото (%), svc — работы из калькулятора
+  var ZONES = [
+    { id: 'lights', x: 82.6, y: 55.2, name: 'Фары и оптика', title: 'Свет стал тусклым?',
+      sym: [['Фары помутнели или пожелтели', ['hpol', 'hrest']], ['Плохо светят ночью', ['hpol']], ['Трещины или сколы на стекле фары', ['hrest']]] },
+    { id: 'body', x: 62, y: 47, name: 'Кузов и покраска', title: 'Царапины, сколы, вмятины',
+      sym: [['Царапины и сколы на ЛКП', []], ['Вмятина после ДТП или парковки', []], ['Ржавчина на порогах или арках', []]],
+      note: 'Кузовные работы считаем после осмотра — пришлите фото или приезжайте. На покраску каждого второго элемента −20%.', call: '+375291020707' },
+    { id: 'brakes', x: 35.5, y: 65, name: 'Тормоза и колёса', title: 'Скрип, вибрация, увод',
+      sym: [['Скрип или свист при торможении', ['padsF', 'padsR']], ['Педаль тормоза «мягкая»', ['bleed', 'brf']], ['Руль бьёт при торможении', ['padsF']], ['Машину уводит в сторону', ['geo', 'align2']]] },
+    { id: 'suspension', x: 16.5, y: 63, name: 'Подвеска', title: 'Стуки на неровностях?',
+      sym: [['Стук на кочках спереди', ['link', 'strut']], ['Люфт и скрип при повороте руля', ['ball', 'tieend']], ['Неровный износ шин', ['geo', 'align2']], ['Гул при движении', ['hub']]] },
+    { id: 'engine', x: 22.5, y: 52, name: 'Двигатель', title: 'Мотор ведёт себя странно',
+      sym: [['Горит «Check Engine»', ['diag']], ['Пора делать ТО', ['oil', 'air', 'cabin']], ['Пробег 60–90 тыс. без замены ГРМ', ['timing', 'pump']], ['Перегрев или уходит антифриз', ['cool', 'rad']]] },
+    { id: 'climate', x: 68, y: 62, name: 'Климат', title: 'Кондиционер не холодит',
+      sym: [['Дует тёплым воздухом', ['ac', 'freon']], ['Неприятный запах из дефлекторов', ['cabin']], ['Запотевают стёкла', ['cabin', 'ac']]] },
+    { id: 'cabin', x: 55, y: 37, name: 'Салон', title: 'Салон потерял вид?',
+      sym: [['Потёртый руль или сиденья', []], ['Провис потолок', []], ['Хочется сменить материал или цвет', []]],
+      note: 'Перетяжку руля, сидений, потолка и дверных карт делает наше тюнинг-ателье. Гарантия 1 год — стоимость назовём по фото.', call: '+375292637352' }
+  ];
+  var spotsEl = document.querySelector('.doc__spots');
+  var panel = document.querySelector('.doc__panel');
+  var zone = null, picked = [];
+
+  spotsEl.innerHTML = ZONES.map(function (z) {
+    return '<button class="hs" type="button" data-zone="' + z.id + '" style="left:' + z.x + '%;top:' + z.y + '%" aria-pressed="false" aria-label="' + esc(z.name) + '"><span class="hs__label">' + esc(z.name) + '</span></button>';
+  }).join('');
+
+  function zoneServices() {
+    var ids = [];
+    zone.sym.forEach(function (s, i) {
+      if (picked.length && picked.indexOf(i) < 0) return;
+      s[1].forEach(function (id) { if (ids.indexOf(id) < 0) ids.push(id); });
+    });
+    return ids;
+  }
+
+  function renderPanel() {
+    spotsEl.querySelectorAll('.hs').forEach(function (b) { b.setAttribute('aria-pressed', String(!!zone && b.dataset.zone === zone.id)); });
+    if (!zone) {
+      panel.innerHTML = '<p class="doc__zone">Подсказка</p><h3>Выберите зону на автомобиле</h3>' +
+        '<p class="doc__hint">Оранжевые точки — фары, кузов, тормоза, подвеска, двигатель, климат и салон. Отметьте симптомы, а мы подберём работы и посчитаем ориентировочную стоимость.</p>' +
+        '<div class="sym">' + ZONES.map(function (z) { return '<button type="button" data-zone="' + z.id + '" aria-pressed="false">' + esc(z.name) + '</button>'; }).join('') + '</div>';
+      return;
+    }
+    var ids = zoneServices();
+    var sum = ids.reduce(function (s, id) { return s + BY_ID[id].price; }, 0);
+    var html = '<p class="doc__zone">' + esc(zone.name) + '</p><h3>' + esc(zone.title) + '</h3>' +
+      '<div class="sym" role="group" aria-label="Что вы замечаете?">' + zone.sym.map(function (s, i) {
+        return '<button type="button" data-sym="' + i + '" aria-pressed="' + (picked.indexOf(i) > -1) + '">' + esc(s[0]) + '</button>';
+      }).join('') + '</div>';
+    if (ids.length) {
+      html += '<ul class="rec">' + ids.map(function (id) {
+        return '<li class="' + (inCart(id) > -1 ? 'in-cart' : '') + '"><span>' + esc(BY_ID[id].name) + '</span><b>от ' + BY_ID[id].price + ' руб.</b></li>';
+      }).join('') + '</ul>' +
+      '<div class="doc__actions"><button class="btn" type="button" data-addzone>Добавить в расчёт · от ' + fmt(sum) + ' руб.</button></div>';
+    } else {
+      html += '<p class="doc__hint">' + esc(zone.note || '') + '</p><div class="doc__actions"><a class="btn" href="tel:' + zone.call + '">Позвонить мастеру</a></div>';
+    }
+    panel.innerHTML = html;
+  }
+
+  function pickZone(id) { zone = ZONES.filter(function (z) { return z.id === id; })[0] || null; picked = []; renderPanel(); }
+  spotsEl.addEventListener('click', function (e) { var b = e.target.closest('[data-zone]'); if (b) pickZone(zone && zone.id === b.dataset.zone ? null : b.dataset.zone); });
+  panel.addEventListener('click', function (e) {
+    var z = e.target.closest('[data-zone]'); if (z) { pickZone(z.dataset.zone); return; }
+    var s = e.target.closest('[data-sym]');
+    if (s) {
+      var i = +s.dataset.sym, k = picked.indexOf(i);
+      if (k > -1) picked.splice(k, 1); else picked.push(i);
+      renderPanel();
+      var again = panel.querySelector('[data-sym="' + i + '"]'); if (again) again.focus();
+      return;
+    }
+    if (e.target.closest('[data-addzone]')) {
+      var n = addMany(zoneServices());
+      renderPanel();
+      showToastInfo(n ? 'Добавлено в расчёт: ' + plural(n) : 'Эти работы уже в расчёте');
+      document.getElementById('calc').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
+    }
+  });
+  function showToastInfo(text) {
+    lastRemoved = null;
+    toastTxt.textContent = text;
+    undoBtn.hidden = true;
+    toast.hidden = false;
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toast.hidden = true; undoBtn.hidden = false; }, 3000);
+  }
+  var _showToast = showToast;
+  showToast = function (t) { undoBtn.hidden = false; _showToast(t); };
+  renderPanel();
+
+  /* ---------- слоты записи ---------- */
+  var daysEl = document.querySelector('.slots__days');
+  var timesEl = document.querySelector('.slots__times');
+  var WD = ['вс', 'пн', 'вт', 'ср', 'чт', 'пт', 'сб'];
+  var MON = ['янв', 'фев', 'мар', 'апр', 'мая', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек'];
+  var TIMES = ['9:00', '10:30', '12:00', '13:30', '15:00', '16:30', '18:00'];
+  var days = [], selDay = 0, selTime = null;
+  for (var d = 0; d < 7; d++) { var dt = new Date(); dt.setDate(dt.getDate() + d); days.push(dt); }
+  function renderSlots() {
+    daysEl.innerHTML = days.map(function (dt, i) {
+      var top = i === 0 ? 'Сегодня' : i === 1 ? 'Завтра' : WD[dt.getDay()];
+      return '<button class="slot" type="button" data-day="' + i + '" aria-pressed="' + (i === selDay) + '">' + top + '<small>' + dt.getDate() + ' ' + MON[dt.getMonth()] + '</small></button>';
+    }).join('');
+    var now = new Date();
+    timesEl.innerHTML = TIMES.map(function (t) {
+      var hm = t.split(':'), past = selDay === 0 && (+hm[0] * 60 + +hm[1]) <= now.getHours() * 60 + now.getMinutes() + 60;
+      return '<button class="slot" type="button" data-time="' + t + '" aria-pressed="' + (t === selTime) + '"' + (past ? ' disabled' : '') + '>' + t + '</button>';
+    }).join('');
+  }
+  daysEl.addEventListener('click', function (e) { var b = e.target.closest('[data-day]'); if (!b) return; selDay = +b.dataset.day; selTime = null; renderSlots(); daysEl.querySelector('[data-day="' + selDay + '"]').focus(); });
+  timesEl.addEventListener('click', function (e) { var b = e.target.closest('[data-time]'); if (!b || b.disabled) return; selTime = b.dataset.time; renderSlots(); timesEl.querySelector('[data-time="' + selTime + '"]').focus(); });
+  renderSlots();
+  slotText = function () { var dt = days[selDay]; return dt.getDate() + ' ' + MON[dt.getMonth()] + (selTime ? ', ' + selTime : ', время — по договорённости'); };
+
+  /* ---------- эффекты ---------- */
+  var progress = document.querySelector('.progress');
+  var hero = document.querySelector('.hero');
+  var frame = document.querySelector('.hero__frame');
+  var spot = document.querySelector('.hero__spot');
+  var fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  var ticking = false;
+  window.addEventListener('scroll', function () {
+    if (ticking) return; ticking = true;
+    requestAnimationFrame(function () {
+      var h = document.documentElement.scrollHeight - innerHeight;
+      progress.style.transform = 'scaleX(' + (h > 0 ? scrollY / h : 0) + ')';
+      if (!reduce && scrollY < innerHeight * 1.2) frame.style.setProperty('--sc', 1 + scrollY / innerHeight * 0.08);
+      ticking = false;
+    });
+  }, { passive: true });
+
+  if (fine && !reduce) {
+    hero.addEventListener('pointermove', function (e) {
+      var r = hero.getBoundingClientRect();
+      var x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+      frame.style.setProperty('--px', ((0.5 - x) * 24).toFixed(1) + 'px');
+      frame.style.setProperty('--py', ((0.5 - y) * 16).toFixed(1) + 'px');
+      spot.style.setProperty('--mx', (x * 100).toFixed(1) + '%');
+      spot.style.setProperty('--my', (y * 100).toFixed(1) + '%');
+    });
+    document.querySelectorAll('.tilt').forEach(function (c) {
+      c.addEventListener('pointermove', function (e) {
+        var r = c.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+        c.style.setProperty('--ry', ((x - 0.5) * 8).toFixed(2) + 'deg');
+        c.style.setProperty('--rx', ((0.5 - y) * 8).toFixed(2) + 'deg');
+        c.style.setProperty('--cx', (x * 100) + '%');
+        c.style.setProperty('--cy', (y * 100) + '%');
+      });
+      c.addEventListener('pointerleave', function () { c.style.setProperty('--rx', '0deg'); c.style.setProperty('--ry', '0deg'); });
+    });
+    document.querySelectorAll('.magnet').forEach(function (b) {
+      b.addEventListener('pointermove', function (e) {
+        var r = b.getBoundingClientRect();
+        b.style.transform = 'translate(' + ((e.clientX - r.left - r.width / 2) * 0.2) + 'px,' + ((e.clientY - r.top - r.height / 2) * 0.3) + 'px)';
+      });
+      b.addEventListener('pointerleave', function () { b.style.transform = ''; });
+    });
+  }
 
   renderTabs(); renderList(); renderCart();
 })();

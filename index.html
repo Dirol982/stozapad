@@ -15,6 +15,7 @@
 <body>
 
 <a class="skip" href="#main">К содержимому</a>
+<div class="progress" aria-hidden="true"></div>
 
 <header class="nav" id="top">
   <div class="wrap nav__in">
@@ -24,6 +25,7 @@
     </a>
     <nav class="nav__links" aria-label="Основное меню">
       <a href="#services">Услуги</a>
+      <a href="#doctor">Диагноз</a>
       <a href="#calc">Калькулятор</a>
       <a href="#offers">Акции</a>
       <a href="#locations">Адреса</a>
@@ -36,7 +38,7 @@
     </div>
   </div>
   <div class="mnav" id="mnav" hidden>
-    <a href="#services">Услуги</a><a href="#calc">Калькулятор</a><a href="#offers">Акции</a><a href="#locations">Адреса</a><a href="https://stozapad.by/cat_rent/prokat-avto/">Прокат авто</a>
+    <a href="#services">Услуги</a><a href="#doctor">Где беспокоит?</a><a href="#calc">Калькулятор</a><a href="#offers">Акции</a><a href="#locations">Адреса</a><a href="https://stozapad.by/cat_rent/prokat-avto/">Прокат авто</a>
     <a class="btn" href="tel:+375293082020">Позвонить</a>
   </div>
 </header>
@@ -45,119 +47,35 @@
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero__glow" aria-hidden="true"></div>
+  <div class="hero__media" aria-hidden="true">
+    <div class="hero__frame">
+      <picture>
+        <source media="(max-width:720px)" srcset="assets/img/hero-m.webp">
+        <img src="assets/img/hero.webp" alt="" width="2000" height="1181" fetchpriority="high">
+      </picture>
+      <span class="flare flare--l"></span><span class="flare flare--r"></span>
+    </div>
+    <div class="hero__shade"></div>
+    <div class="hero__spot"></div>
+  </div>
   <div class="wrap hero__grid">
     <div class="hero__copy">
       <p class="eyebrow reveal"><span class="pulse" aria-hidden="true"></span>Открыто ежедневно · 9:00–20:00</p>
       <h1 class="reveal d1">Сервис, после которого <em>машина</em> едет как новая</h1>
       <p class="lead reveal d2">Три СТО в Минске, 140 видов работ — от ТО до кузова и перетяжки салона. Считаете стоимость онлайн, а мы бесплатно заберём авто в ремонт и вернём обратно.</p>
       <div class="hero__ctas reveal d3">
-        <a class="btn btn--lg" href="#calc">Рассчитать стоимость
+        <a class="btn btn--lg magnet" href="#calc">Рассчитать стоимость
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-        <a class="btn btn--ghost btn--lg" href="tel:+375293082020">Позвонить мастеру</a>
+        <a class="btn btn--ghost btn--lg" href="#doctor">Где беспокоит?</a>
       </div>
       <ul class="hero__ticks reveal d4">
         <li>Без очередей</li><li>Запчасти в наличии и под заказ</li><li>Гарантия на работы</li>
       </ul>
     </div>
   </div>
-
-  <div class="stage" aria-hidden="true">
-    <div class="stage__floor"></div>
-    <svg class="car" viewBox="0 0 1600 600" preserveAspectRatio="xMidYMax meet">
-      <defs>
-        <linearGradient id="carBody" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#4a505a"/>
-          <stop offset=".35" stop-color="#22262c"/>
-          <stop offset=".7" stop-color="#121418"/>
-          <stop offset="1" stop-color="#08090b"/>
-        </linearGradient>
-        <linearGradient id="carRim" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0" stop-color="#ff6a1a" stop-opacity="0"/>
-          <stop offset=".55" stop-color="#ff8a3d" stop-opacity=".6"/>
-          <stop offset="1" stop-color="#ffd2b0"/>
-        </linearGradient>
-        <linearGradient id="carGlass" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stop-color="#2b3340"/>
-          <stop offset=".5" stop-color="#0c0f14"/>
-          <stop offset="1" stop-color="#1b2230"/>
-        </linearGradient>
-        <linearGradient id="sweep" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0" stop-color="#fff" stop-opacity="0"/>
-          <stop offset=".5" stop-color="#fff" stop-opacity=".35"/>
-          <stop offset="1" stop-color="#fff" stop-opacity="0"/>
-        </linearGradient>
-        <linearGradient id="beam" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0" stop-color="#fff4e8" stop-opacity=".55"/>
-          <stop offset="1" stop-color="#fff4e8" stop-opacity="0"/>
-        </linearGradient>
-        <radialGradient id="tireG" cx="50%" cy="50%" r="50%">
-          <stop offset=".7" stop-color="#0d0f12"/>
-          <stop offset=".93" stop-color="#22262c"/>
-          <stop offset="1" stop-color="#0a0b0d"/>
-        </radialGradient>
-        <linearGradient id="rimG" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stop-color="#f2efea"/>
-          <stop offset=".5" stop-color="#7d838c"/>
-          <stop offset="1" stop-color="#262a31"/>
-        </linearGradient>
-        <radialGradient id="shadowG" cx="50%" cy="50%" r="50%">
-          <stop offset="0" stop-color="#000" stop-opacity=".85"/>
-          <stop offset="1" stop-color="#000" stop-opacity="0"/>
-        </radialGradient>
-        <clipPath id="bodyClip">
-          <path d="M110 440 C110 405 130 388 170 380 L300 360 C360 345 400 330 430 312 C520 255 610 222 720 214 L900 212 C990 214 1060 240 1140 300 C1160 314 1180 322 1210 326 L1400 350 C1460 358 1500 378 1505 410 L1508 440 C1508 458 1496 468 1478 468 L1360 468 A118 118 0 0 0 1124 468 L540 468 A118 118 0 0 0 304 468 L140 468 C122 468 110 458 110 440 Z"/>
-        </clipPath>
-        <g id="wheel">
-          <circle r="100" fill="url(#tireG)"/>
-          <circle r="72" fill="url(#rimG)"/>
-          <circle r="66" fill="#0f1114"/>
-          <path d="M-46 -44 A64 64 0 0 1 20 -60" stroke="#ff6a1a" stroke-width="16" fill="none" class="caliper"/>
-          <g class="spokes">
-            <g fill="url(#rimG)">
-              <path d="M-5 -64 L5 -64 L9 -14 L-9 -14 Z"/>
-              <path d="M-5 -64 L5 -64 L9 -14 L-9 -14 Z" transform="rotate(36)"/>
-              <path d="M-5 -64 L5 -64 L9 -14 L-9 -14 Z" transform="rotate(72)"/>
-              <path d="M-5 -64 L5 -64 L9 -14 L-9 -14 Z" transform="rotate(108)"/>
-              <path d="M-5 -64 L5 -64 L9 -14 L-9 -14 Z" transform="rotate(144)"/>
-              <path d="M-5 -64 L5 -64 L9 -14 L-9 -14 Z" transform="rotate(180)"/>
-              <path d="M-5 -64 L5 -64 L9 -14 L-9 -14 Z" transform="rotate(216)"/>
-              <path d="M-5 -64 L5 -64 L9 -14 L-9 -14 Z" transform="rotate(252)"/>
-              <path d="M-5 -64 L5 -64 L9 -14 L-9 -14 Z" transform="rotate(288)"/>
-              <path d="M-5 -64 L5 -64 L9 -14 L-9 -14 Z" transform="rotate(324)"/>
-            </g>
-            <circle r="18" fill="#1d2127" stroke="#cfd3d9" stroke-opacity=".5" stroke-width="2"/>
-            <circle r="5" fill="#ff6a1a"/>
-          </g>
-        </g>
-      </defs>
-
-      <ellipse cx="808" cy="575" rx="760" ry="30" fill="url(#shadowG)"/>
-      <path class="beam" d="M1500 392 L1600 330 L1600 520 Z" fill="url(#beam)"/>
-
-      <g class="car__body">
-        <path d="M110 440 C110 405 130 388 170 380 L300 360 C360 345 400 330 430 312 C520 255 610 222 720 214 L900 212 C990 214 1060 240 1140 300 C1160 314 1180 322 1210 326 L1400 350 C1460 358 1500 378 1505 410 L1508 440 C1508 458 1496 468 1478 468 L1360 468 A118 118 0 0 0 1124 468 L540 468 A118 118 0 0 0 304 468 L140 468 C122 468 110 458 110 440 Z" fill="url(#carBody)"/>
-        <path d="M430 312 C520 255 610 222 720 214 L900 212 C990 214 1060 240 1140 300 C1160 314 1180 322 1210 326 L1400 350 C1460 358 1500 378 1505 410" fill="none" stroke="url(#carRim)" stroke-width="3"/>
-        <path d="M455 318 C540 262 620 238 720 231 L895 229 C975 231 1035 257 1098 306 L470 323 Z" fill="url(#carGlass)"/>
-        <path d="M455 318 C540 262 620 238 720 231 L895 229 C975 231 1035 257 1098 306" fill="none" stroke="#9aa3ad" stroke-opacity=".35" stroke-width="2"/>
-        <path d="M800 229 L788 320" stroke="#08090b" stroke-width="12"/>
-        <path d="M160 392 C500 352 900 342 1480 382" fill="none" stroke="#fff" stroke-opacity=".22" stroke-width="2"/>
-        <path d="M560 432 C760 426 940 426 1118 432" fill="none" stroke="#fff" stroke-opacity=".08" stroke-width="2"/>
-        <path d="M788 326 L796 462 M1096 318 L1110 440" stroke="#000" stroke-opacity=".55" stroke-width="2"/>
-        <path d="M720 360 h46" stroke="#cfd3d9" stroke-opacity=".4" stroke-width="4" stroke-linecap="round"/>
-        <path d="M1030 352 h46" stroke="#cfd3d9" stroke-opacity=".4" stroke-width="4" stroke-linecap="round"/>
-        <path d="M1078 320 l34 -8 l8 16 l-36 6 z" fill="#15181c" stroke="#9aa3ad" stroke-opacity=".3"/>
-        <path class="headlight" d="M1412 362 L1497 386 L1494 400 L1418 386 Z" fill="#fff6ec"/>
-        <path class="taillight" d="M112 402 L192 386 L194 398 L114 416 Z" fill="#ff2a2a"/>
-        <rect class="sweep" x="-400" y="180" width="260" height="320" fill="url(#sweep)" clip-path="url(#bodyClip)" transform="skewX(-18)"/>
-      </g>
-
-      <g transform="translate(422 468)"><g class="wheel"><use href="#wheel"/></g></g>
-      <g transform="translate(1242 468)"><g class="wheel"><use href="#wheel"/></g></g>
-    </svg>
-    <div class="chip chip--a"><b>Бесплатно</b> заберём авто в ремонт</div>
-    <div class="chip chip--b"><span class="chip__ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 4.5-3 7.6-7 9-4-1.4-7-4.5-7-9V6z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Гарантия на все работы</div>
-  </div>
+  <div class="chip chip--a" aria-hidden="true"><b>Бесплатно</b> заберём авто в ремонт</div>
+  <div class="chip chip--b" aria-hidden="true"><span class="chip__ic"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 4.5-3 7.6-7 9-4-1.4-7-4.5-7-9V6z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Гарантия на все работы</div>
+  <a class="scrollcue" href="#services" aria-label="Листать вниз"><span></span></a>
 </section>
 
 <!-- STATS -->
@@ -185,30 +103,57 @@
       <a class="link-arrow" href="https://stozapad.by/ceny/">Полный прайс-лист →</a>
     </div>
     <div class="bento">
-      <a class="card card--xl reveal" href="https://stozapad.by/uslugi/pokraska-avto/">
-        <img src="assets/img/svc-paint.svg" alt="" width="640" height="440" loading="lazy">
+      <a class="card card--xl reveal tilt" href="https://stozapad.by/uslugi/pokraska-avto/">
+        <img src="assets/img/svc-paint.webp" alt="Глянцевый красный кузов после покраски" width="1200" height="1000" loading="lazy">
         <div class="card__body"><span class="tag">−20% на второй элемент</span><h3>Покраска и кузов</h3><p>Покраска в камере, локальный ремонт, восстановление геометрии на стапеле.</p></div>
       </a>
-      <a class="card reveal d1" href="https://stozapad.by/uslugi/razval-skhozhdenie-3d/">
-        <img src="assets/img/svc-align.svg" alt="" width="640" height="440" loading="lazy">
+      <a class="card reveal d1 tilt" href="https://stozapad.by/uslugi/razval-skhozhdenie-3d/">
+        <img src="assets/img/svc-wheel.webp" alt="Мастер снимает колесо гайковёртом" width="900" height="700" loading="lazy">
         <div class="card__body"><span class="price">от 29 руб.</span><h3>Развал-схождение 3D</h3></div>
       </a>
-      <a class="card reveal d2" href="https://stozapad.by/uslugi/diagnostika-avtomobilya/kompyuternaya-diagnostika-avtomobilya/">
-        <img src="assets/img/svc-diag.svg" alt="" width="640" height="440" loading="lazy">
+      <a class="card reveal d2 tilt" href="https://stozapad.by/uslugi/diagnostika-avtomobilya/kompyuternaya-diagnostika-avtomobilya/">
+        <img src="assets/img/svc-diag.webp" alt="Мастер работает в моторном отсеке" width="900" height="700" loading="lazy">
         <div class="card__body"><span class="price">от 32 руб.</span><h3>Компьютерная диагностика</h3></div>
       </a>
-      <a class="card reveal" href="https://stozapad.by/uslugi/avtoehlektrika/zapravka-avtokondicionera/">
-        <img src="assets/img/svc-ac.svg" alt="" width="640" height="440" loading="lazy">
+      <a class="card reveal tilt" href="https://stozapad.by/uslugi/avtoehlektrika/zapravka-avtokondicionera/">
+        <img src="assets/img/svc-ac.webp" alt="Салон и приборная панель автомобиля" width="900" height="700" loading="lazy">
         <div class="card__body"><span class="price">от 40 руб.</span><h3>Заправка кондиционера</h3></div>
       </a>
-      <a class="card reveal d1" href="https://stozapad.by/uslugi/chip-tyuning/">
-        <img src="assets/img/svc-chip.svg" alt="" width="640" height="440" loading="lazy">
+      <a class="card reveal d1 tilt" href="https://stozapad.by/uslugi/chip-tyuning/">
+        <img src="assets/img/svc-chip.webp" alt="Моторный отсек спортивного автомобиля" width="900" height="700" loading="lazy">
         <div class="card__body"><span class="price">от 120 руб.</span><h3>Чип-тюнинг и прошивка ЭБУ</h3></div>
       </a>
-      <a class="card card--wide reveal d2" href="https://stozapad.by/uslugi/peretyazhka-salona-avtomobilya/">
-        <img src="assets/img/svc-interior.svg" alt="" width="640" height="440" loading="lazy">
+      <a class="card card--wide reveal tilt" href="https://stozapad.by/uslugi/peretyazhka-salona-avtomobilya/">
+        <img src="assets/img/svc-interior.webp" alt="Руки на кожаном руле" width="1400" height="600" loading="lazy">
         <div class="card__body"><span class="tag">Тюнинг-ателье</span><h3>Перетяжка салона</h3><p>Руль, сиденья, потолок, двери и торпеда — кожа, алькантара, экокожа. Гарантия 1 год.</p></div>
       </a>
+      <a class="card reveal d1 tilt" href="https://stozapad.by/uslugi/detailing/">
+        <img src="assets/img/svc-detail.webp" alt="Мойка спортивного автомобиля под давлением" width="900" height="700" loading="lazy">
+        <div class="card__body"><span class="price">Керамика · плёнка</span><h3>Детейлинг</h3></div>
+      </a>
+      <a class="card reveal d2 tilt" href="https://stozapad.by/uslugi/remont-dvigatelya/">
+        <img src="assets/img/svc-engine.webp" alt="Ремень ГРМ и навесное оборудование двигателя" width="900" height="700" loading="lazy">
+        <div class="card__body"><span class="price">ГРМ от 120 руб.</span><h3>Ремонт двигателя</h3></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- DOCTOR -->
+<section class="section doctor-sec" id="doctor">
+  <div class="wrap">
+    <div class="head reveal">
+      <p class="kicker">Интерактив</p>
+      <h2>Где беспокоит? <br class="br-lg">Нажмите на точку</h2>
+      <p class="head__sub">Отметьте, что вы замечаете, — подскажем, какие работы обычно нужны, и сразу добавим их в расчёт.</p>
+    </div>
+    <div class="doc reveal">
+      <div class="doc__stage">
+        <img src="assets/img/car-map.webp" alt="Спортивный автомобиль — выберите зону на схеме" width="1600" height="1067" loading="lazy">
+        <div class="doc__scan" aria-hidden="true"></div>
+        <div class="doc__spots"></div>
+      </div>
+      <div class="doc__panel" aria-live="polite"></div>
     </div>
   </div>
 </section>
@@ -246,6 +191,11 @@
         <div class="cart__foot">
           <div class="cart__total"><span>Итого, от</span><b><span class="total-num">0</span> руб.</b></div>
           <p class="cart__note"><span class="cart__count">0 работ</span> · без стоимости запчастей</p>
+          <div class="slots">
+            <p class="slots__label">Когда удобно приехать?</p>
+            <div class="slots__days" role="group" aria-label="День"></div>
+            <div class="slots__times" role="group" aria-label="Время"></div>
+          </div>
           <form class="cart__form" novalidate>
             <label><span class="sr">Ваш телефон</span><input type="tel" name="phone" placeholder="+375 (__) ___-__-__" required inputmode="tel" autocomplete="tel"></label>
             <button class="btn btn--block" type="submit">Записаться с этим расчётом</button>
@@ -345,6 +295,7 @@
 
 <!-- FINAL CTA -->
 <section class="final">
+  <img class="final__bg" src="assets/img/final.webp" alt="" width="1920" height="900" loading="lazy" aria-hidden="true">
   <div class="wrap final__in reveal">
     <h2>Машина просит внимания?<br><em>Мы уже на связи.</em></h2>
     <div class="final__ctas">
