@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 440" width="640" height="440">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="50%" r="75%">
+      <stop offset="0" stop-color="#231a2e"/>
+      <stop offset="1" stop-color="#0b0d10"/>
+    </radialGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#ff6a1a" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#ff6a1a" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="die" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#3a3f48"/>
+      <stop offset="1" stop-color="#15181d"/>
+    </linearGradient>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M32 0H0V32" fill="none" stroke="#fff" stroke-opacity=".04"/>
+    </pattern>
+  </defs>
+  <rect width="640" height="440" fill="url(#bg)"/>
+  <rect width="640" height="440" fill="url(#grid)"/>
+  <circle cx="320" cy="220" r="210" fill="url(#glow)"/>
+  <!-- traces -->
+  <g fill="none" stroke="#ff8a3d" stroke-width="2" stroke-opacity=".75">
+    <path d="M240 170 H140 L110 140 H40"/><path d="M240 200 H120 L90 230 H20"/><path d="M240 250 H160 L130 290 H60"/>
+    <path d="M400 170 H500 L530 130 H620"/><path d="M400 220 H560 L590 250"/><path d="M400 260 H480 L520 310 H600"/>
+    <path d="M280 140 V80 L250 50 V0"/><path d="M340 140 V60 L380 30 V0"/>
+    <path d="M300 300 V370 L270 400 V440"/><path d="M350 300 V380 L390 420 V440"/>
+  </g>
+  <g fill="#ffc59e"><circle cx="40" cy="140" r="5"/><circle cx="20" cy="230" r="5"/><circle cx="60" cy="290" r="5"/>
+  <circle cx="620" cy="130" r="5"/><circle cx="590" cy="250" r="5"/><circle cx="600" cy="310" r="5"/></g>
+  <!-- chip -->
+  <g stroke="#e9e6e1" stroke-opacity=".6" stroke-width="4" stroke-linecap="round">
+    <path d="M250 150 v-14 M275 150 v-14 M300 150 v-14 M325 150 v-14 M350 150 v-14 M375 150 v-14"/>
+    <path d="M250 290 v14 M275 290 v14 M300 290 v14 M325 290 v14 M350 290 v14 M375 290 v14"/>
+    <path d="M240 160 h-14 M240 185 h-14 M240 210 h-14 M240 235 h-14 M240 260 h-14 M240 280 h-14"/>
+    <path d="M400 160 h14 M400 185 h14 M400 210 h14 M400 235 h14 M400 260 h14 M400 280 h14"/>
+  </g>
+  <rect x="240" y="150" width="160" height="140" rx="14" fill="url(#die)" stroke="#e9e6e1" stroke-opacity=".5" stroke-width="2"/>
+  <rect x="270" y="178" width="100" height="84" rx="8" fill="none" stroke="#ff6a1a" stroke-width="2"/>
+  <g font-family="Manrope, Arial, sans-serif" fill="#e9e6e1" text-anchor="middle">
+    <text x="320" y="222" font-size="22" font-weight="800">ECU</text>
+    <text x="320" y="244" font-size="10" letter-spacing="2" fill-opacity=".6">PROGRAMMING</text>
+  </g>
+</svg>

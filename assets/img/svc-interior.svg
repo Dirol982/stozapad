@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 440" width="640" height="440">
+  <defs>
+    <radialGradient id="bg" cx="60%" cy="40%" r="80%">
+      <stop offset="0" stop-color="#2a1d16"/>
+      <stop offset="1" stop-color="#0b0d10"/>
+    </radialGradient>
+    <linearGradient id="leather" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#9a5a34"/>
+      <stop offset=".5" stop-color="#6b3a1f"/>
+      <stop offset="1" stop-color="#2d170b"/>
+    </linearGradient>
+    <linearGradient id="leather2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#b56c40"/>
+      <stop offset="1" stop-color="#4a250f"/>
+    </linearGradient>
+    <linearGradient id="sheen" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#fff" stop-opacity="0"/>
+      <stop offset=".5" stop-color="#fff" stop-opacity=".22"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M32 0H0V32" fill="none" stroke="#fff" stroke-opacity=".04"/>
+    </pattern>
+  </defs>
+  <rect width="640" height="440" fill="url(#bg)"/>
+  <rect width="640" height="440" fill="url(#grid)"/>
+  <!-- seat back -->
+  <path d="M250 60 C330 40 400 50 420 80 L440 260 C440 280 420 290 400 290 L270 290 C250 290 232 280 230 260 L220 100 C218 80 230 66 250 60 Z" fill="url(#leather)"/>
+  <!-- quilting -->
+  <g stroke="#1b0d05" stroke-opacity=".5" stroke-width="2" fill="none">
+    <path d="M262 100 L408 100"/><path d="M258 140 L414 140"/><path d="M256 180 L420 180"/><path d="M254 220 L426 220"/>
+    <path d="M300 74 L296 284"/><path d="M370 70 L380 284"/>
+  </g>
+  <g stroke="#ff9a5c" stroke-width="2" stroke-dasharray="6 6" fill="none">
+    <path d="M300 74 L296 284"/><path d="M370 70 L380 284"/>
+    <path d="M250 66 C330 46 400 56 414 84"/>
+  </g>
+  <path d="M260 80 C300 66 360 64 400 84" stroke="url(#sheen)" stroke-width="22" fill="none" stroke-linecap="round"/>
+  <!-- headrest -->
+  <rect x="285" y="0" width="110" height="52" rx="22" fill="url(#leather2)" transform="translate(0 6)"/>
+  <!-- cushion -->
+  <path d="M190 300 C200 280 230 276 270 276 L430 276 C470 276 500 284 506 306 L516 360 C518 380 500 392 480 392 L210 392 C190 392 176 380 178 360 Z" fill="url(#leather2)"/>
+  <g stroke="#ff9a5c" stroke-width="2" stroke-dasharray="6 6" fill="none">
+    <path d="M200 330 H500"/><path d="M296 282 L290 388"/><path d="M400 282 L408 388"/>
+  </g>
+  <path d="M220 300 C300 288 400 288 480 300" stroke="url(#sheen)" stroke-width="14" fill="none" stroke-linecap="round"/>
+  <!-- needle & thread -->
+  <g transform="translate(470 120) rotate(35)">
+    <path d="M0 0 L110 0" stroke="#e9e6e1" stroke-width="4" stroke-linecap="round"/>
+    <ellipse cx="100" cy="0" rx="7" ry="3" fill="none" stroke="#0b0d10" stroke-width="2"/>
+  </g>
+  <path d="M560 182 C600 220 560 260 600 300 S560 380 610 420" fill="none" stroke="#ff6a1a" stroke-width="2.5"/>
+</svg>
