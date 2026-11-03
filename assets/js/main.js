@@ -50,70 +50,129 @@
   }
 
   /* ---------- calculator ---------- */
-  // Цены «от», руб. — из прайса stozapad.by/ceny
   var CATS = [
+  // Цены «от», руб. Источник: страницы услуг stozapad.by, где цены нет — общий прайс stozapad.by/ceny.
+  // [id, название, цена, пометка, можно указать количество, элемент кузова (скидка −20% на каждый второй)]
     { id: 'to', name: 'ТО и диагностика', items: [
-      ['diag', 'Компьютерная диагностика ЭБУ', 32],
+      ['diag', 'Компьютерная диагностика', 32],
       ['osm', 'Комплексный осмотр автомобиля', 42],
       ['lift', 'Осмотр на подъёмнике', 20],
       ['oil', 'Замена масла двигателя и фильтра', 27],
-      ['air', 'Замена воздушного фильтра', 90],
+      ['air', 'Замена воздушного фильтра', 10],
       ['cabin', 'Замена салонного фильтра', 10],
-      ['cool', 'Замена охлаждающей жидкости', 48],
+      ['fuel', 'Замена топливного фильтра', 10],
+      ['cool', 'Замена антифриза', 15],
       ['brf', 'Замена тормозной жидкости', 15],
-      ['plugs', 'Замена свечей зажигания', 65],
-      ['mkpp', 'Замена масла МКПП', 27],
-      ['reset', 'Сброс сервисного интервала', 9]
+      ['plugs', 'Замена свечей зажигания', 15],
+      ['glow', 'Замена свечей накала', 25],
+      ['mkpp', 'Замена масла в МКПП', 25],
+      ['akpp', 'Замена масла в АКПП', 35],
+      ['reset', 'Сброс ошибки / сервисного интервала', 10]
     ]},
     { id: 'chassis', name: 'Ходовая и руль', items: [
-      ['geo', 'Проверка геометрии', 29],
-      ['align1', 'Развал-схождение, 1 ось', 29, 'легковой'],
-      ['align2', 'Развал-схождение, 2 оси', 39, 'легковой'],
-      ['align4x4', 'Развал-схождение, 2 оси', 49, 'джип / кроссовер'],
-      ['strut', 'Замена передней амортизаторной стойки', 50, 'за шт.', true],
+      ['susp', 'Диагностика подвески', 20],
+      ['geoCheck', 'Проверка углов установки колёс', 25],
+      ['geo', 'Проверка геометрии', 35],
+      ['align1', 'Развал-схождение, 1 ось', 35, 'легковой'],
+      ['align2', 'Развал-схождение, 2 оси', 50, 'легковой'],
+      ['alignJ1', 'Развал-схождение, 1 ось', 45, 'джип / кроссовер'],
+      ['alignJ2', 'Развал-схождение, 2 оси', 70, 'джип / кроссовер'],
+      ['alignBus', 'Развал-схождение', 45, 'микроавтобус'],
       ['link', 'Замена стойки стабилизатора', 15, 'за шт.', true],
-      ['ball', 'Замена шаровой опоры', 45, 'за шт.', true],
-      ['hub', 'Замена переднего подшипника ступицы', 36, 'за шт.', true],
+      ['bush', 'Замена втулок стабилизатора', 25],
+      ['shock', 'Замена амортизатора', 40, 'за шт.', true],
+      ['spring', 'Замена пружины', 50, 'за шт.', true],
+      ['ball', 'Замена шаровой опоры', 40, 'за шт.', true],
+      ['ballR', 'Восстановление шаровой опоры', 60, 'за шт.', true],
+      ['arm', 'Замена рычага подвески', 50, 'за шт.', true],
+      ['silent', 'Замена сайлентблоков', 20],
+      ['hub', 'Замена ступичного подшипника', 60, 'за шт.', true],
+      ['cv', 'Замена ШРУСа', 60, 'за шт.', true],
+      ['boot', 'Замена пыльника ШРУСа', 40, 'за шт.', true],
       ['tie', 'Замена рулевой тяги', 30, 'за шт.', true],
       ['tieend', 'Замена рулевого наконечника', 15, 'за шт.', true],
       ['rack', 'Рулевая рейка — снять/установить', 120]
     ]},
     { id: 'brakes', name: 'Тормоза', items: [
+      ['brDiag', 'Диагностика тормозной системы', 15],
       ['padsF', 'Замена передних колодок', 30],
       ['padsR', 'Замена задних колодок (диск)', 30],
       ['drum', 'Замена задних колодок (барабан)', 41],
+      ['caliper', 'Суппорт передний — снять/установить', 20, 'за шт.', true],
       ['bleed', 'Прокачка тормозной системы', 15],
       ['hose', 'Замена тормозного шланга', 15, 'за шт.', true],
       ['park', 'Замена колодок стояночного тормоза', 45]
+    ]},
+    { id: 'tires', name: 'Шиномонтаж', items: [
+      ['tire13', 'Шиномонтаж 4 колёс R12–R13', 50, 'с балансировкой'],
+      ['tire16', 'Шиномонтаж 4 колёс R14–R16', 60, 'с балансировкой'],
+      ['tire19', 'Шиномонтаж 4 колёс R17–R19', 70, 'с балансировкой'],
+      ['tire21', 'Шиномонтаж 4 колёс R20–R21', 85, 'с балансировкой'],
+      ['tire1', 'Шиномонтаж 1 колеса R14–R16', 16, 'за колесо', true]
+    ]},
+    { id: 'paint', name: 'Покраска', items: [
+      ['pHood', 'Покраска капота', 400, '', false, true],
+      ['pDoor', 'Покраска двери', 300, 'за шт.', true, true],
+      ['pWing', 'Покраска крыла', 300, 'за шт.', true, true],
+      ['pBumper', 'Покраска бампера', 450, 'за шт.', true, true],
+      ['pSill', 'Покраска порога', 300, 'за шт.', true, true],
+      ['pTrunk', 'Покраска крышки багажника', 350, '', false, true],
+      ['pRoof', 'Покраска крыши', 500, '', false, true],
+      ['polish', 'Полировка кузова', 500],
+      ['pFull', 'Покраска автомобиля полностью', 5000]
     ]},
     { id: 'engine', name: 'Двигатель', items: [
       ['timing', 'Замена комплекта ремня ГРМ', 120],
       ['pump', 'Замена помпы (при снятом ГРМ)', 45],
       ['rad', 'Замена радиатора охлаждения', 50],
       ['turbo', 'Турбина — снять/установить (бензин)', 200],
+      ['cat', 'Катализатор — снять/установить', 80],
       ['muffler', 'Замена глушителя', 25]
     ]},
-    { id: 'climate', name: 'Климат и электрика', items: [
-      ['ac', 'Диагностика и заправка кондиционера', 40],
-      ['freon', 'Фреон', 10, 'за 100 г', true],
+    { id: 'climate', name: 'Кондиционер и электрика', items: [
+      ['acLeak', 'Проверка кондиционера на герметичность', 40],
+      ['acFill', 'Заправка кондиционера с вакуумированием', 80],
+      ['freon', 'Фреон', 15, 'за 100 г', true],
+      ['acDis', 'Дезинфекция системы кондиционирования', 80],
+      ['acFind', 'Поиск утечки', 30],
       ['elec', 'Поиск неисправности электрики', 35, 'за час', true]
     ]},
     { id: 'lights', name: 'Фары', items: [
       ['hpol', 'Полировка фар', 60, 'за фару', true],
       ['hrest', 'Восстановление пластика передних фар', 100, 'за фару', true],
-      ['hrestR', 'Восстановление задних фонарей', 50, 'за фонарь', true]
+      ['hrestR', 'Восстановление задних фонарей', 50, 'за фонарь', true],
+      ['hlak', 'Покраска передних фар защитным лаком', 160]
+    ]},
+    { id: 'detail', name: 'Детейлинг', items: [
+      ['ceramic', 'Керамика в 1 слой, седан', 300],
+      ['ceramicJ', 'Керамика в 1 слой, джип / минивэн', 350],
+      ['dry', 'Химчистка салона, седан', 200],
+      ['tint', 'Тонировка стёкол', 80],
+      ['rain', 'Антидождь на лобовое стекло', 50],
+      ['wheels', 'Полировка дисков, комплект', 300]
+    ]},
+    { id: 'interior', name: 'Салон', items: [
+      ['wEco', 'Перетяжка руля экокожей', 100],
+      ['wAlc', 'Перетяжка руля алькантарой', 120],
+      ['wLeather', 'Перетяжка руля натуральной кожей', 200],
+      ['seat', 'Перетяжка сиденья', 200, 'за шт.', true],
+      ['ceiling', 'Перетяжка потолка (седан, без люка)', 200],
+      ['armrest', 'Перетяжка подлокотника', 50],
+      ['shift', 'Перетяжка ручки КПП', 45],
+      ['mats', 'Пошив ковриков из экокожи, комплект', 120]
     ]},
     { id: 'chip', name: 'Чип-тюнинг', items: [
       ['ecu', 'Прошивка ЭБУ (заводская)', 120],
       ['ecuPlus', 'Прошивка ЭБУ с увеличением мощности', 150],
       ['egr', 'Программное отключение EGR', 160],
       ['ss', 'Отключение Start/Stop', 150],
-      ['adblue', 'Программное отключение AdBlue', 200]
+      ['adblue', 'Программное отключение AdBlue', 200],
+      ['speedo', 'Корректировка спидометра', 100]
     ]}
   ];
   var BY_ID = {};
   CATS.forEach(function (c) { c.items.forEach(function (i) {
-    BY_ID[i[0]] = { id: i[0], name: i[1], price: i[2], note: i[3] || '', qty: !!i[4], cat: c.name };
+    BY_ID[i[0]] = { id: i[0], name: i[1], price: i[2], note: i[3] || '', qty: !!i[4], paint: !!i[5], cat: c.name };
   }); });
 
   var tabsEl = document.querySelector('.calc__tabs');
@@ -125,6 +184,7 @@
   var totalWrap = document.querySelector('.cart__total b');
   var totalNum = document.querySelector('.total-num');
   var countEl = document.querySelector('.cart__count');
+  var discEl = document.querySelector('.cart__disc');
   var mbarSum = document.querySelector('.mbar__sum');
   var toast = document.querySelector('.toast');
   var toastTxt = document.querySelector('.toast__txt');
@@ -176,7 +236,17 @@
     }).join('');
   }
 
-  function total() { return cart.reduce(function (s, x) { return s + BY_ID[x.id].price * x.n; }, 0); }
+  function gross() { return cart.reduce(function (s, x) { return s + BY_ID[x.id].price * x.n; }, 0); }
+  // Акция: −20% на каждый второй элемент кузова (скидку считаем с более дешёвых элементов)
+  function paintDiscount() {
+    var units = [];
+    cart.forEach(function (x) { var it = BY_ID[x.id]; if (it.paint) for (var k = 0; k < x.n; k++) units.push(it.price); });
+    units.sort(function (a, b) { return b - a; });
+    var d = 0;
+    for (var i = 1; i < units.length; i += 2) d += units[i] * 0.2;
+    return Math.round(d);
+  }
+  function total() { return gross() - paintDiscount(); }
 
   var shown = 0;
   function animateTotal(to) {
@@ -208,6 +278,9 @@
     emptyEl.hidden = has;
     clearBtn.hidden = !has;
     countEl.textContent = plural(cart.length);
+    var disc = paintDiscount();
+    discEl.hidden = !disc;
+    discEl.querySelector('b').textContent = '−' + fmt(disc) + ' руб.';
     var t = total();
     animateTotal(t);
     if (mbarSum) { mbarSum.hidden = !has; mbarSum.textContent = '· ' + fmt(t) + ' руб.'; }
@@ -308,110 +381,65 @@
     var digits = phone.value.replace(/\D/g, '');
     if (digits.length !== 12) { phone.classList.add('is-bad'); phone.focus(); return; }
     var lines = cart.map(function (x) { var it = BY_ID[x.id]; return '— ' + it.name + (it.qty ? ' × ' + x.n : '') + ': от ' + it.price * x.n + ' руб.'; });
-    var body = 'Телефон: ' + phone.value + '\nКогда: ' + slotText() + '\n\nПредварительный расчёт:\n' + (lines.join('\n') || '— (не выбрано)') + '\n\nИтого от ' + fmt(total()) + ' руб.';
+    var body = 'Телефон: ' + phone.value + '\nКогда: ' + slotText() + '\n\nПредварительный расчёт:\n' + (lines.join('\n') || '— (не выбрано)') + (paintDiscount() ? '\nСкидка −20% на каждый второй элемент: −' + fmt(paintDiscount()) + ' руб.' : '') + '\n\nИтого от ' + fmt(total()) + ' руб.';
     // TODO: подключить отправку на сервер / CRM / Telegram-бота. Пока — письмо администратору.
     window.location.href = 'mailto:mavra41@bk.ru?subject=' + encodeURIComponent('Запись с сайта — онлайн-расчёт') + '&body=' + encodeURIComponent(body);
     okEl.hidden = false;
   });
 
-  function addMany(ids) {
-    var added = 0;
-    ids.forEach(function (id) { if (BY_ID[id] && inCart(id) < 0) { cart.push({ id: id, n: 1 }); added++; } });
-    renderCart(); renderList();
-    return added;
-  }
-
   /* ---------- «Где беспокоит?» ---------- */
-  // x/y — положение точки на фото (%), svc — работы из калькулятора
+  // x/y — положение точки на фото (%), svc — короткий список работ из калькулятора
   var ZONES = [
-    { id: 'lights', x: 82.6, y: 55.2, name: 'Фары и оптика', title: 'Свет стал тусклым?',
-      sym: [['Фары помутнели или пожелтели', ['hpol', 'hrest']], ['Плохо светят ночью', ['hpol']], ['Трещины или сколы на стекле фары', ['hrest']]] },
-    { id: 'body', x: 62, y: 47, name: 'Кузов и покраска', title: 'Царапины, сколы, вмятины',
-      sym: [['Царапины и сколы на ЛКП', []], ['Вмятина после ДТП или парковки', []], ['Ржавчина на порогах или арках', []]],
-      note: 'Кузовные работы считаем после осмотра — пришлите фото или приезжайте. На покраску каждого второго элемента −20%.', call: '+375291020707' },
-    { id: 'brakes', x: 35.5, y: 65, name: 'Тормоза и колёса', title: 'Скрип, вибрация, увод',
-      sym: [['Скрип или свист при торможении', ['padsF', 'padsR']], ['Педаль тормоза «мягкая»', ['bleed', 'brf']], ['Руль бьёт при торможении', ['padsF']], ['Машину уводит в сторону', ['geo', 'align2']]] },
-    { id: 'suspension', x: 16.5, y: 63, name: 'Подвеска', title: 'Стуки на неровностях?',
-      sym: [['Стук на кочках спереди', ['link', 'strut']], ['Люфт и скрип при повороте руля', ['ball', 'tieend']], ['Неровный износ шин', ['geo', 'align2']], ['Гул при движении', ['hub']]] },
-    { id: 'engine', x: 22.5, y: 52, name: 'Двигатель', title: 'Мотор ведёт себя странно',
-      sym: [['Горит «Check Engine»', ['diag']], ['Пора делать ТО', ['oil', 'air', 'cabin']], ['Пробег 60–90 тыс. без замены ГРМ', ['timing', 'pump']], ['Перегрев или уходит антифриз', ['cool', 'rad']]] },
-    { id: 'climate', x: 68, y: 62, name: 'Климат', title: 'Кондиционер не холодит',
-      sym: [['Дует тёплым воздухом', ['ac', 'freon']], ['Неприятный запах из дефлекторов', ['cabin']], ['Запотевают стёкла', ['cabin', 'ac']]] },
-    { id: 'cabin', x: 55, y: 37, name: 'Салон', title: 'Салон потерял вид?',
-      sym: [['Потёртый руль или сиденья', []], ['Провис потолок', []], ['Хочется сменить материал или цвет', []]],
-      note: 'Перетяжку руля, сидений, потолка и дверных карт делает наше тюнинг-ателье. Гарантия 1 год — стоимость назовём по фото.', call: '+375292637352' }
+    { id: 'lights', x: 82.6, y: 55.2, name: 'Фары', svc: ['hpol', 'hrest', 'hlak'] },
+    { id: 'body', x: 62, y: 47, name: 'Кузов и покраска', svc: ['pDoor', 'pWing', 'pBumper', 'polish'] },
+    { id: 'brakes', x: 35.5, y: 65, name: 'Тормоза и колёса', svc: ['brDiag', 'padsF', 'padsR', 'tire16'] },
+    { id: 'suspension', x: 16.5, y: 63, name: 'Подвеска', svc: ['susp', 'link', 'shock', 'align2'] },
+    { id: 'engine', x: 22.5, y: 52, name: 'Двигатель', svc: ['diag', 'oil', 'timing'] },
+    { id: 'climate', x: 68, y: 62, name: 'Кондиционер', svc: ['acLeak', 'acFill', 'acDis', 'cabin'] },
+    { id: 'cabin', x: 55, y: 37, name: 'Салон', svc: ['wEco', 'seat', 'ceiling', 'dry'] }
   ];
   var spotsEl = document.querySelector('.doc__spots');
   var panel = document.querySelector('.doc__panel');
-  var zone = null, picked = [];
+  var zone = null;
 
   spotsEl.innerHTML = ZONES.map(function (z) {
     return '<button class="hs" type="button" data-zone="' + z.id + '" style="left:' + z.x + '%;top:' + z.y + '%" aria-pressed="false" aria-label="' + esc(z.name) + '"><span class="hs__label">' + esc(z.name) + '</span></button>';
   }).join('');
 
-  function zoneServices() {
-    var ids = [];
-    zone.sym.forEach(function (s, i) {
-      if (picked.length && picked.indexOf(i) < 0) return;
-      s[1].forEach(function (id) { if (ids.indexOf(id) < 0) ids.push(id); });
-    });
-    return ids;
-  }
-
   function renderPanel() {
     spotsEl.querySelectorAll('.hs').forEach(function (b) { b.setAttribute('aria-pressed', String(!!zone && b.dataset.zone === zone.id)); });
+    var tabs = '<div class="doc__tabs" role="group" aria-label="Зоны автомобиля">' + ZONES.map(function (z) {
+      return '<button type="button" data-zone="' + z.id + '" aria-pressed="' + (!!zone && zone.id === z.id) + '">' + esc(z.name) + '</button>';
+    }).join('') + '</div>';
     if (!zone) {
       panel.innerHTML = '<p class="doc__zone">Подсказка</p><h3>Выберите зону на автомобиле</h3>' +
-        '<p class="doc__hint">Оранжевые точки — фары, кузов, тормоза, подвеска, двигатель, климат и салон. Отметьте симптомы, а мы подберём работы и посчитаем ориентировочную стоимость.</p>' +
-        '<div class="sym">' + ZONES.map(function (z) { return '<button type="button" data-zone="' + z.id + '" aria-pressed="false">' + esc(z.name) + '</button>'; }).join('') + '</div>';
+        '<p class="doc__hint">Нажмите на оранжевую точку или на название ниже — покажем основные работы. Отметьте нужные, и они попадут в ваш расчёт.</p>' + tabs;
       return;
     }
-    var ids = zoneServices();
-    var sum = ids.reduce(function (s, id) { return s + BY_ID[id].price; }, 0);
-    var html = '<p class="doc__zone">' + esc(zone.name) + '</p><h3>' + esc(zone.title) + '</h3>' +
-      '<div class="sym" role="group" aria-label="Что вы замечаете?">' + zone.sym.map(function (s, i) {
-        return '<button type="button" data-sym="' + i + '" aria-pressed="' + (picked.indexOf(i) > -1) + '">' + esc(s[0]) + '</button>';
-      }).join('') + '</div>';
-    if (ids.length) {
-      html += '<ul class="rec">' + ids.map(function (id) {
-        return '<li class="' + (inCart(id) > -1 ? 'in-cart' : '') + '"><span>' + esc(BY_ID[id].name) + '</span><b>от ' + BY_ID[id].price + ' руб.</b></li>';
+    var n = zone.svc.filter(function (id) { return inCart(id) > -1; }).length;
+    panel.innerHTML = '<p class="doc__zone">' + esc(zone.name) + '</p><h3>Что нужно сделать?</h3>' +
+      '<ul class="doc__list">' + zone.svc.map(function (id) {
+        var it = BY_ID[id], on = inCart(id) > -1;
+        return '<li class="svc"><span class="svc__name">' + esc(it.name) + (it.note ? '<small>' + esc(it.note) + '</small>' : '') + '</span>' +
+          '<button class="add" type="button" data-pick="' + id + '" aria-pressed="' + on + '" aria-label="' + (on ? 'Убрать из расчёта: ' : 'Добавить в расчёт: ') + esc(it.name) + '">' + ICON_PLUS + '</button></li>';
       }).join('') + '</ul>' +
-      '<div class="doc__actions"><button class="btn" type="button" data-addzone>Добавить в расчёт · от ' + fmt(sum) + ' руб.</button></div>';
-    } else {
-      html += '<p class="doc__hint">' + esc(zone.note || '') + '</p><div class="doc__actions"><a class="btn" href="tel:' + zone.call + '">Позвонить мастеру</a></div>';
-    }
-    panel.innerHTML = html;
+      '<div class="doc__actions"><a class="btn' + (n ? '' : ' btn--ghost') + '" href="#calc">' + (n ? 'Перейти к расчёту · ' + plural(n) : 'Перейти к расчёту') + '</a></div>' + tabs;
   }
 
-  function pickZone(id) { zone = ZONES.filter(function (z) { return z.id === id; })[0] || null; picked = []; renderPanel(); }
+  function pickZone(id) { zone = ZONES.filter(function (z) { return z.id === id; })[0] || null; renderPanel(); }
   spotsEl.addEventListener('click', function (e) { var b = e.target.closest('[data-zone]'); if (b) pickZone(zone && zone.id === b.dataset.zone ? null : b.dataset.zone); });
   panel.addEventListener('click', function (e) {
-    var z = e.target.closest('[data-zone]'); if (z) { pickZone(z.dataset.zone); return; }
-    var s = e.target.closest('[data-sym]');
-    if (s) {
-      var i = +s.dataset.sym, k = picked.indexOf(i);
-      if (k > -1) picked.splice(k, 1); else picked.push(i);
+    var z = e.target.closest('[data-zone]'); if (z) { pickZone(z.dataset.zone); var t = panel.querySelector('.doc__tabs [data-zone="' + z.dataset.zone + '"]'); if (t) t.focus(); return; }
+    var p = e.target.closest('[data-pick]');
+    if (p) {
+      var id = p.dataset.pick;
+      if (inCart(id) > -1) removeIds([id]); else add(id);
       renderPanel();
-      var again = panel.querySelector('[data-sym="' + i + '"]'); if (again) again.focus();
-      return;
-    }
-    if (e.target.closest('[data-addzone]')) {
-      var n = addMany(zoneServices());
-      renderPanel();
-      showToastInfo(n ? 'Добавлено в расчёт: ' + plural(n) : 'Эти работы уже в расчёте');
-      document.getElementById('calc').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
+      var again = panel.querySelector('[data-pick="' + id + '"]'); if (again) again.focus();
     }
   });
-  function showToastInfo(text) {
-    lastRemoved = null;
-    toastTxt.textContent = text;
-    undoBtn.hidden = true;
-    toast.hidden = false;
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(function () { toast.hidden = true; undoBtn.hidden = false; }, 3000);
-  }
-  var _showToast = showToast;
-  showToast = function (t) { undoBtn.hidden = false; _showToast(t); };
+  var _renderCart = renderCart;
+  renderCart = function (o) { _renderCart(o); if (zone) renderPanel(); };
   renderPanel();
 
   /* ---------- слоты записи ---------- */

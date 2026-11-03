@@ -357,6 +357,42 @@ p{margin:0}
 }
 @media (hover:none){.card{transform:none!important}}
 
+
+/* ---------- v3: doctor list, discount, photos ---------- */
+.doc__list{list-style:none;margin:0;padding:0}
+.doc__list .svc{padding:10px 0}
+.doc__tabs{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;padding-top:14px;border-top:1px solid var(--line)}
+.doc__tabs button{min-height:44px;padding:0 12px;border-radius:999px;border:0;background:var(--surface-2);color:var(--muted);font-weight:700;font-size:13px;cursor:pointer;transition:background .2s,color .2s}
+.doc__tabs button:hover{color:var(--text)}
+.doc__tabs button[aria-pressed="true"]{background:var(--text);color:var(--bg)}
+.doc__actions{margin-top:0}
+.cart__disc{display:flex;justify-content:space-between;gap:12px;align-items:baseline;padding:10px 12px;border-radius:12px;background:rgba(61,220,151,.08);box-shadow:inset 0 0 0 1px rgba(61,220,151,.25);font-size:14px;animation:rowIn .4s var(--ease)}
+.cart__disc span{color:var(--muted);font-weight:600}
+.cart__disc b{color:var(--ok);white-space:nowrap;font-variant-numeric:tabular-nums}
+.loc{padding:0;overflow:hidden}
+.loc > :not(.loc__ph){margin-left:28px;margin-right:28px}
+.loc > :last-child{margin-bottom:24px}
+.loc__ph{position:relative;aspect-ratio:16/10;overflow:hidden;margin-bottom:22px}
+.loc__ph img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--ease)}
+.loc:hover .loc__ph img{transform:scale(1.05)}
+.loc__ph::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(22,26,32,.9))}
+.loc__badge{position:relative}
+.shop{position:relative;margin:0 0 18px;border-radius:var(--r);overflow:hidden;aspect-ratio:16/7;box-shadow:inset 0 0 0 1px var(--line)}
+.shop img{width:100%;height:100%;object-fit:cover}
+.shop::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgba(11,13,16,.85))}
+.shop figcaption{position:absolute;left:24px;right:24px;bottom:20px;z-index:1;font-weight:700;font-size:clamp(15px,1.6vw,19px)}
+/* карточки услуг: текст не обрезается — высота растёт под содержимое */
+.card{display:flex;flex-direction:column;justify-content:flex-end;min-height:0}
+.card__body{position:relative}
+@media (max-width:720px){
+  .bento{grid-auto-rows:auto}
+  .card{min-height:260px}
+  .card--xl{min-height:360px}
+  .card__body{padding:20px}
+  .loc > :not(.loc__ph){margin-left:18px;margin-right:18px}
+  .shop{aspect-ratio:4/3}
+}
+
 /* ---------- reveal ---------- */
 .reveal{opacity:0;transform:translateY(28px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
 .reveal.is-in{opacity:1;transform:none}
@@ -414,4 +450,11 @@ p{margin:0}
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
   .reveal{opacity:1;transform:none}
+}
+
+/* мобильная сетка услуг: высота строк по содержимому, чтобы текст карточек не обрезался */
+@media (max-width:720px){
+  .bento{grid-auto-rows:auto}
+  .card{min-height:260px}
+  .card--xl{min-height:380px}
 }
