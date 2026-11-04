@@ -389,6 +389,9 @@
   var cart = [];          // [{id}]
   var car = 'car';
   var active = CATS[0].id;
+  var ROWS = 4, expanded = {};
+  var narrow = window.matchMedia('(max-width: 720px)');
+  var uslug = function (n) { var m10 = n % 10, m100 = n % 100; return m10 === 1 && m100 !== 11 ? 'услуга' : m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14) ? 'услуги' : 'услуг'; };
   var lastRemoved = null;
   var toastTimer;
 
@@ -435,13 +438,22 @@
       CATS.filter(function (c) { return c.id === active; })[0].items.forEach(function (i, k) { list.push(BY_ID[active + '-' + k]); });
     }
     if (!list.length) { listEl.innerHTML = '<p class="calc__none">Не нашли нужную работу? Позвоните — мастер подскажет: <a href="tel:+375293082020">+375 29 308-20-20</a></p>'; return; }
+    // 4 ряда работ, остальные — под кнопкой «Ещё N услуг»
+    var limit = ROWS * (narrow.matches ? 1 : 2), hiddenN = 0, more = '';
+    var key = q ? '__search' : active;
+    if (list.length > limit) {
+      if (!expanded[key]) { hiddenN = list.length - limit; list = list.slice(0, limit); }
+      more = '<button type="button" class="calc__more" data-more aria-expanded="' + !!expanded[key] + '">' +
+        (hiddenN ? 'Ещё ' + hiddenN + ' ' + uslug(hiddenN) + (q ? ' по запросу' : ' в этой категории') : 'Свернуть') +
+        '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>';
+    }
     listEl.innerHTML = list.map(function (it) {
       var on = inCart(it.id) > -1;
       return '<button type="button" class="item' + (on ? ' is-on' : '') + '" data-add="' + it.id + '" aria-pressed="' + on + '">' +
         '<span class="item__box" aria-hidden="true"></span>' +
         '<span class="item__nm">' + esc(it.name) + (q ? '<small>' + esc(it.cat) + '</small>' : '') + '</span>' +
         '<span class="item__pr"><small>от</small> ' + money(price(it)) + '</span></button>';
-    }).join('');
+    }).join('') + more;
   }
 
   function gross() { return cart.reduce(function (s, x) { return s + price(BY_ID[x.id]); }, 0); }
@@ -552,9 +564,21 @@
     refresh();
     listEl.scrollTop = 0;
   });
-  searchEl.addEventListener('input', refresh);
+  searchEl.addEventListener('input', function () { expanded.__search = false; refresh(); });
+  if (narrow.addEventListener) narrow.addEventListener('change', renderList); else narrow.addListener(renderList);
 
   listEl.addEventListener('click', function (e) {
+    if (e.target.closest('[data-more]')) {
+      var key = searchEl.value.trim() ? '__search' : active;
+      var wasOpen = !!expanded[key];
+      expanded[key] = !wasOpen;
+      var first = wasOpen ? null : listEl.querySelectorAll('.item').length;
+      renderList();
+      var m = listEl.querySelector('[data-more]');
+      if (first !== null) { var nx = listEl.querySelectorAll('.item')[first]; if (nx) nx.focus(); }
+      else { if (m) m.focus(); listEl.closest('.calc').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' }); }
+      return;
+    }
     var b = e.target.closest('[data-add]'); if (!b) return;
     var id = b.dataset.add;
     if (inCart(id) > -1) removeIds([id]); else add(id);
