@@ -133,7 +133,7 @@
       </a>
       <a class="card reveal d2 tilt" href="https://stozapad.by/uslugi/remont-dvigatelya/">
         <img src="assets/img/svc-engine.webp" alt="Ремень ГРМ и навесное оборудование двигателя" width="900" height="700" loading="lazy">
-        <div class="card__body"><span class="price">ГРМ от 120 руб.</span><h3>Ремонт двигателя</h3></div>
+        <div class="card__body"><span class="price">ГРМ от 250 руб.</span><h3>Ремонт двигателя</h3></div>
       </a>
     </div>
   </div>
@@ -163,46 +163,58 @@
   <div class="wrap">
     <div class="head reveal">
       <p class="kicker">Онлайн-расчёт</p>
-      <h2>Соберите заказ — <br class="br-lg">и сразу увидите цену</h2>
-      <p class="head__sub">Цены «от» по прайсу stozapad.by, без учёта запчастей. Скидка на покраску считается автоматически. Точную стоимость мастер подтвердит после осмотра.</p>
+      <h2>Отметьте работы — <br class="br-lg"><em>цена считается сразу</em></h2>
+      <p class="head__sub">Полный прайс автоцентра: <b class="calc__total-n">268</b> работ в 16 направлениях. Цены «от», без запчастей — точную стоимость мастер согласует после осмотра, до начала работ.</p>
     </div>
 
     <div class="calc reveal">
       <div class="calc__pick">
-        <div class="calc__tabs" role="tablist" aria-label="Категории работ"></div>
+        <div class="calc__top">
+          <div class="seg" role="group" aria-label="Тип автомобиля">
+            <button type="button" data-car="car" aria-pressed="true">Легковой</button>
+            <button type="button" data-car="suv" aria-pressed="false">Кроссовер / джип</button>
+            <button type="button" data-car="bus" aria-pressed="false">Микроавтобус</button>
+          </div>
+          <small>Тип авто влияет на развал, шиномонтаж, мойку, химчистку и антикор</small>
+        </div>
         <label class="calc__search">
           <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M20 20l-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-          <span class="sr">Поиск услуги</span>
-          <input type="search" placeholder="Найти услугу: колодки, ГРМ, фары…" autocomplete="off">
+          <span class="sr">Поиск по работам</span>
+          <input type="search" placeholder="Найти работу: колодки, ШРУС, фары, кондиционер…" autocomplete="off">
+          <span class="calc__found" aria-live="polite"></span>
         </label>
-        <ul class="calc__list" aria-live="polite"></ul>
+        <div class="calc__tabs" role="group" aria-label="Направления"></div>
+        <div class="calc__items"></div>
       </div>
 
       <aside class="calc__cart" aria-label="Предварительный расчёт">
         <div class="cart__head">
-          <h3>Ваш расчёт</h3>
+          <h3>Предварительный расчёт</h3>
           <button class="cart__clear" type="button" hidden>Очистить</button>
         </div>
-        <div class="cart__empty">
-          <svg viewBox="0 0 48 48" aria-hidden="true"><rect x="8" y="6" width="32" height="38" rx="6" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 16h16M16 24h16M16 32h9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-          <p>Добавьте работы из списка — сумма посчитается автоматически. Лишнее можно удалить в один клик.</p>
-        </div>
+        <p class="cart__meta">ЗАПАД · легковой · работ: 0</p>
         <ul class="cart__list"></ul>
-        <div class="cart__foot">
-          <div class="cart__total"><span>Итого, от</span><b><span class="total-num">0</span> руб.</b></div>
-          <p class="cart__disc" hidden><span>Акция: −20% на каждый второй элемент кузова</span><b></b></p>
-          <p class="cart__note"><span class="cart__count">0 работ</span> · без стоимости запчастей</p>
-          <div class="slots">
-            <p class="slots__label">Когда удобно приехать?</p>
-            <div class="slots__days" role="group" aria-label="День"></div>
-            <div class="slots__times" role="group" aria-label="Время"></div>
-          </div>
-          <form class="cart__form" novalidate>
-            <label><span class="sr">Ваш телефон</span><input type="tel" name="phone" placeholder="+375 (__) ___-__-__" required inputmode="tel" autocomplete="tel"></label>
-            <button class="btn btn--block" type="submit">Записаться с этим расчётом</button>
-          </form>
-          <p class="cart__ok" hidden role="status">Открыли письмо с вашим расчётом — отправьте его, и администратор перезвонит в рабочее время.</p>
+        <p class="cart__empty">Отметьте работы слева</p>
+        <p class="cart__disc" hidden><span>−20% на каждый второй элемент кузова</span><b></b></p>
+        <div class="cart__total"><span>Итого</span><b><small>от</small> <span class="total-num">0</span> руб.</b></div>
+        <p class="cart__note">Ориентировочная стоимость работ без запчастей. <span class="cart__count">0 работ</span></p>
+        <div class="slots">
+          <p class="slots__label">Когда удобно приехать?</p>
+          <div class="slots__days" role="group" aria-label="День"></div>
+          <div class="slots__times" role="group" aria-label="Время"></div>
         </div>
+        <form class="cart__form" novalidate>
+          <label><span class="sr">Где удобнее</span>
+            <select name="station">
+              <option>СТО на ул. Янки Мавра, 41</option>
+              <option>СТО на ул. Пономаренко, 75А</option>
+              <option>СТО на ул. Уборевича, 85</option>
+            </select>
+          </label>
+          <label><span class="sr">Ваш телефон</span><input type="tel" name="phone" placeholder="+375 (__) ___-__-__" required inputmode="tel" autocomplete="tel"></label>
+          <button class="btn btn--block" type="submit">Записаться с этим расчётом</button>
+        </form>
+        <p class="cart__ok" hidden role="status">Открыли письмо с вашим расчётом — отправьте его, и администратор перезвонит в рабочее время.</p>
       </aside>
     </div>
   </div>
